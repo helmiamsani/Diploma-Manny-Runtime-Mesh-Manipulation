@@ -11,7 +11,7 @@ public class MeshStudy : MonoBehaviour
     MeshFilter oMeshFilter;
     int[] triangles;
 
-    [HideInInspector]
+    //[HideInInspector]
     public Vector3[] vertices;
 
     [HideInInspector]
@@ -72,7 +72,7 @@ public class MeshStudy : MonoBehaviour
     public void DoAction(int index, Vector3 localPos)
     {
         // specify methods here
-        PullOneVertex(index, localPos);
+        PullSimilarVertices(index, localPos);
     }
 
     // returns List of int that is related to the targetPt.
@@ -143,6 +143,14 @@ public class MeshStudy : MonoBehaviour
 
     private void PullSimilarVertices(int index, Vector3 newPos)
     {
+        Vector3 targetVertexPos = vertices[index];
+        List<int> relatedVertices = FindRelatedVertices(targetVertexPos, false);
+        foreach(int i in relatedVertices)
+        {
+            vertices[i] = newPos;
+        }
+        cMesh.vertices = vertices;
+        cMesh.RecalculateNormals();
     }
 
     // To test Reset function
